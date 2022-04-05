@@ -58,4 +58,11 @@ public class VehicleRepository {
         }
     }
 
+    public void deleteSingleRegistration(int id) {
+        try {
+            db.update("delete from Registration where id = ?", id);
+        } catch (Exception e) {
+            System.out.println("Noe gikk galt med delete SingleRegistration i repo");
+        }
+    }
 }

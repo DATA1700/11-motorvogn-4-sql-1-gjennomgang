@@ -22,6 +22,12 @@ public class VehicleController {
         repo.addRegistrations(registration);
     }
 
+    @GetMapping("/api/deleteSingleRegistration")
+    public void deleteSingleRegistration(int id) {
+        System.out.println(id);
+        repo.deleteSingleRegistration(id);
+    }
+
     @GetMapping("/api/registrations")
     public List<Registration> getAllRegistrations(){
         return repo.getRegistrations();
