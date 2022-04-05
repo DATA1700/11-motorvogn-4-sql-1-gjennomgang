@@ -11,4 +11,5 @@ values  ('Volvo','V30'),
 
 -- demo to debug button
 insert into Registration(ssn, name, address, characteristics, brand, type)
-values ('12345678901', 'Ulrik', 'OsloMet', 'AB12345', 'Toyota', 'Corolla');
+values   ('12345678901', 'Ulrik', 'OsloMet', 'AB12345', 'Toyota', 'Corolla'),
+         ('09876543210', 'Ulrik', 'OsloMet', 'AB12345', 'Toyota', 'Corolla');
