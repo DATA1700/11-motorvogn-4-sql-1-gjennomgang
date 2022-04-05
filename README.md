@@ -29,3 +29,6 @@ Nye dependencies:
 Husk å reloade maven etter at dere har lagt inn disse sammen med andre `<dependency>` tags inne i `<dependencies>` taggen i [`pom.xml`](pom.xml) filen
 
 Kan hende at `jdbc` ikke treings, men bare `h2` og `jpa`
+
+TODO:
+- [ ] Refactor Vehicle is controller og repository
