@@ -47,22 +47,31 @@ $(() => {
 
 const fetchRegistrations = () => $.get("/api/registrations", list => formatList(list))
 
-const formatList = list => {
+function formatList(list) {
     let msg = "";
 
     if (list.length > 0) {
-        msg += "<table class='table table-striped'><tr><th>Personnr</th><th>Navn</th><th>Adresse</th><th>Kjennetegn</th><th>Merke</th><th>Type</th></tr>"
+        msg += "<table class='table table-striped'><tr><th>Personnr</th><th>Navn</th><th>Adresse</th><th>Kjennetegn</th><th>Merke</th><th>Type</th><th></th></tr>"
 
         for (let registration of list) {
             msg += "<tr><td>" + registration.ssn + "</td><td>" + registration.name + "</td><td>" + registration.address + "</td>" +
-                "<td>" + registration.characteristics + "</td><td>" + registration.brand + "</td><td>" + registration.type + "</td></tr>"
+                "<td>" + registration.characteristics + "</td><td>" + registration.brand + "</td><td>" + registration.type + "</td><td><button class='btn btn-danger' name='tableDelete' value='" + registration.id + "' >Slett</button></td></tr>"
         }
 
         msg += "</table>";
     }
 
     $("#list").html(msg)
+
+    $("button[name='tableDelete']").on("click", element => {
+        deleteSingleRegistration($(element.target).val())
+    });
 }
+
+const deleteSingleRegistration = id => $.get("/api/deleteSingleRegistration?id=" + id, () => {
+    fetchRegistrations()
+});
+
 
 const formatBrandInput = () => $.get("/api/cars", list => {
     let msg = "<select class='form-control' id='chosenBrand'>";
