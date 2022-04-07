@@ -1,4 +1,5 @@
 $(() => {
+    $.ajaxSetup({async:false});
     $("#register").click(() => {
         const ssn = $("#ssn");
         const name = $("#name");
@@ -38,14 +39,24 @@ $(() => {
         })
     });
 
+
+    initCarlist();
+
     formatBrandInput();
 
     resetTypeInput();
 
     fetchRegistrations();
+
 })
 
-const fetchRegistrations = () => $.get("/api/registrations", list => formatList(list))
+let carlist;
+
+const initCarlist = () => {
+    $.get("/api/cars", list => carlist = list);
+}
+
+const fetchRegistrations = () => $.get("/api/registrations", list => formatList(list));
 
 const formatList = list => {
     let msg = "";
@@ -73,44 +84,54 @@ const deleteSingleRegistration = id => $.get("/api/deleteSingleRegistration?id="
     fetchRegistrations();
 })
 
-const formatBrandInput = () => $.get("/api/cars", list => {
-    let msg = "<select class='form-control' id='chosenBrand'>";
+const formatBrandInput = () => {
+    // $.get("/api/cars", list => {
+        let msg = "<select class='form-control' id='chosenBrand'>";
 
-    let lastBrand = "";
+        let lastBrand = "";
 
-    msg += "<option value='' selected hidden disabled >Velg Merke</option>";
+        msg += "<option value='' selected hidden disabled >Velg Merke</option>";
 
-    for (const car of list) {
-        if (car.brand !== lastBrand) {
-            msg += "<option>" + car.brand + "</option>";
+        for (const car of carlist) {
+            if (car.brand !== lastBrand) {
+                msg += "<option>" + car.brand + "</option>";
+            }
+            lastBrand = car.brand;
         }
-        lastBrand = car.brand;
-    }
 
-    msg += "</select>"
+        msg += "</select>"
 
-    $("#brand").html(msg);
+        $("#brand").html(msg);
 
-    $("#chosenBrand").on("change", formatTypeInput);
-})
+        $("#chosenBrand").on("change", formatTypeInput);
 
-const formatTypeInput = () => $.get("/api/cars", list => {
-    let msg = "<select class='form-control' id='chosenType'>";
+        console.log("log 1 format get er ferdig")
+    // });
+    console.log("log 2 etter get request")
+}
 
-    const currentBrand = $("#chosenBrand").val();
 
-    msg += "<option value='' selected hidden disabled >Velg Type</option>";
 
-    for (const car of list) {
-        if (car.brand === currentBrand) {
-            msg += "<option>" + car.type + "</option>";
+const formatTypeInput = () => {
+    // $.get("/api/cars", list => {
+        let msg = "<select class='form-control' id='chosenType'>";
+
+        const currentBrand = $("#chosenBrand").val();
+
+        msg += "<option value='' selected hidden disabled >Velg Type</option>";
+
+        for (const car of carlist) {
+            if (car.brand === currentBrand) {
+                msg += "<option>" + car.type + "</option>";
+            }
         }
-    }
 
-    msg += "</select>";
+        msg += "</select>";
 
-    $("#type").html(msg);
-})
+        $("#type").html(msg);
+    // })
+}
+
 
 const resetTypeInput = () => {
     const msg = "" +
